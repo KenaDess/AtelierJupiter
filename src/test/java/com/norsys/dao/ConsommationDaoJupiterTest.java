@@ -56,6 +56,19 @@ public class ConsommationDaoJupiterTest {
                 Assertions.assertEquals(lieuxConso.get(index), conso.getLieu());
             }));
         }
+
+        @TestFactory
+        @DisplayName("Récupérer les consommations selon le lieu (test factory)")
+        Stream<DynamicTest> devraitRecupererConsommationsParLieu_testFactory() {
+            List<String> lieux = Arrays.asList("Lille", "Ennevelin", "Seclin", "Paris");
+            List<Integer> nombresConsommations = Arrays.asList(2, 2, 1, 0);
+
+            return lieux.stream().map(lieu -> DynamicTest.dynamicTest("On boit combien de bières à " + lieu + " ?", () -> {
+                int index = lieux.indexOf(lieu);
+
+                Assertions.assertEquals(consommationDao.getConsommationsByLieu(lieu).size(), nombresConsommations.get(index).intValue());
+            }));
+        }
     }
 
     @Nested
@@ -94,14 +107,16 @@ public class ConsommationDaoJupiterTest {
     class SuppressionConsommation {
 
         @Test
+        @DisplayName("Suppression de la première consommation")
         void devraitSupprimerUneConsommation() {
-
+            Assertions.assertTrue(consommationDao.deleteConsommation(0));
         }
 
         @Test
+        @DisplayName("Suppression d'une consommation inexistante")
         void devraitSupprimerAucuneConsommationCarInexistante() {
+            Assertions.assertFalse(consommationDao.deleteConsommation(10));
         }
-
 
     }
 
