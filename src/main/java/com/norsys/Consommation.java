@@ -1,22 +1,22 @@
 package com.norsys;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Consommation {
 
     private Integer id;
     private Biere biere;
-    private Date date;
+    private LocalDate date;
     private String lieu;
 
-    public Consommation(Integer id, Biere biere, Date date, String lieu) {
+    public Consommation(Integer id, Biere biere, LocalDate date, String lieu) {
         this.id = id;
         this.biere = biere;
         this.date = date;
         this.lieu = lieu;
     }
 
-    public Consommation(Biere biere, Date date, String lieu) {
+    public Consommation(Biere biere, LocalDate date, String lieu) {
         this.biere = biere;
         this.date = date;
         this.lieu = lieu;
@@ -30,11 +30,11 @@ public class Consommation {
         this.biere = biere;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

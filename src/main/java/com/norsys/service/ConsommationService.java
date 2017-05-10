@@ -4,8 +4,8 @@ import com.norsys.Biere;
 import com.norsys.Consommation;
 import com.norsys.dao.ConsommationDao;
 import com.norsys.dao.exception.BoboException;
-import org.assertj.core.util.DateUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ConsommationService {
@@ -29,7 +29,7 @@ public class ConsommationService {
     }
 
     public Consommation saveConsommation(Biere biere, String lieu) throws BoboException {
-        return consommationDao.saveConsommation(biere, DateUtil.now(), lieu);
+        return consommationDao.saveConsommation(biere, LocalDate.now(), lieu);
     }
 
     public boolean deleteConsommation(Integer idConso) {

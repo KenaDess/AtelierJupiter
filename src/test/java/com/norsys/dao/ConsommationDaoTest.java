@@ -8,7 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.norsys.util.DateUtil.getLocalDate;
 
 /**
  * Classe de tests JUnit 4 pour ConsommationDao.
@@ -56,18 +59,25 @@ public class ConsommationDaoTest {
         Assert.assertTrue(consoParis.isEmpty());
     }
 
+    @Test
+    public void devraitRecupererConsommationParDate() throws Exception {
+        Assert.assertFalse(consommationDao.getConsommationsByDate(getLocalDate("01/01/2017")).isEmpty());
+        Assert.assertFalse(consommationDao.getConsommationsByDate(getLocalDate("17/05/2017")).isEmpty());
+        Assert.assertFalse(consommationDao.getConsommationsByDate(getLocalDate("01/08/2017")).isEmpty());
+    }
+
     /* ******************** Sauvegarde de consommations ****************** */
 
     @Test
     public void devraitSauverUneConsommation() throws Exception {
-        Consommation consoResultante = consommationDao.saveConsommation(newTripelKarmeliet(), DateUtil.yesterday(), "Seclin");
+        Consommation consoResultante = consommationDao.saveConsommation(newTripelKarmeliet(), LocalDate.now(), "Seclin");
         Assert.assertNotNull(consoResultante);
         Assert.assertTrue(consoResultante.getId() == 5);
     }
 
     @Test(expected = BoboException.class)
     public void devraitLeverExceptionPourParis() throws Exception {
-        consommationDao.saveConsommation(newTripelKarmeliet(), DateUtil.yesterday(), "Paris");
+        consommationDao.saveConsommation(newTripelKarmeliet(), LocalDate.now(), "Paris");
     }
 
     /* ******************* Suppression de consommations ****************** */

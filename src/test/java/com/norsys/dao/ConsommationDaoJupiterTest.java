@@ -3,13 +3,21 @@ package com.norsys.dao;
 import com.norsys.Biere;
 import com.norsys.Consommation;
 import com.norsys.dao.exception.BoboException;
+import org.apache.tomcat.jni.Local;
 import org.assertj.core.util.DateUtil;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ContainerExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.norsys.util.DateUtil.getLocalDate;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Classe de tests JUnit 5 pour ConsommationDao.
@@ -69,15 +77,22 @@ public class ConsommationDaoJupiterTest {
                 Assertions.assertEquals(consommationDao.getConsommationsByLieu(lieu).size(), nombresConsommations.get(index).intValue());
             }));
         }
-    }
 
+        @ParameterizedTest
+        @ArgumentsSource(DateArgumentsProvider.class)
+        @DisplayName("Vérifier qu'il existe au moins une consommation pour une date")
+        void devraitRecupererAuMoinsUneConsommationParDate(LocalDate dateArgument){
+            Assertions.assertFalse(consommationDao.getConsommationsByDate(dateArgument).isEmpty());
+        }
+
+    }
     @Nested
     class SauvegardeConsommation {
 
         @Test
         @DisplayName("Insertion d'une nouvelle consommation")
         void devraitSauvegarderUneConsommation() throws BoboException {
-            Consommation consoResultante = consommationDao.saveConsommation(newTripelKarmeliet(), DateUtil.now(), "Seclin");
+            Consommation consoResultante = consommationDao.saveConsommation(newTripelKarmeliet(), LocalDate.now(), "Seclin");
             Assertions.assertTrue(5 == consoResultante.getId());
         }
 
@@ -85,7 +100,7 @@ public class ConsommationDaoJupiterTest {
         @DisplayName("Tentative d'insertion de consommation à Paris, lève une BoboException")
         void devraitLeverExceptionPourParis() {
             Throwable exception = Assertions.assertThrows(BoboException.class, () -> {
-                consommationDao.saveConsommation(newTripelKarmeliet(), DateUtil.now(), "Paris");
+                consommationDao.saveConsommation(newTripelKarmeliet(), LocalDate.now(), "Paris");
             });
             Assertions.assertEquals("A Paris, on déguste du vin dans un bar à vin !", exception.getMessage());
         }
@@ -96,13 +111,13 @@ public class ConsommationDaoJupiterTest {
             List<String> ecritures = Arrays.asList("Paris", "paris", "PARIS");
             return ecritures.stream().map(paris -> DynamicTest.dynamicTest("Tentative d'insertion d'une consommation à " + paris, () -> {
                 Throwable exception = Assertions.assertThrows(BoboException.class, () -> {
-                    consommationDao.saveConsommation(newTripelKarmeliet(), DateUtil.now(), paris);
+                    consommationDao.saveConsommation(newTripelKarmeliet(), LocalDate.now(), paris);
                 });
                 Assertions.assertEquals("A Paris, on déguste du vin dans un bar à vin !", exception.getMessage());
             }));
         }
-    }
 
+    }
     @Nested
     class SuppressionConsommation {
 
@@ -118,6 +133,13 @@ public class ConsommationDaoJupiterTest {
             Assertions.assertFalse(consommationDao.deleteConsommation(10));
         }
 
+        @ParameterizedTest
+        @ValueSource(ints = {5, -1, 10})
+        @DisplayName("Suppressions de consommations inexistantes (test paramétré)" )
+        void devraitSupprimerAucuneConsommationCarInexistante_testParametre(int argument) {
+            Assertions.assertFalse(consommationDao.deleteConsommation(argument));
+        }
+
     }
 
     /* ******************* Utils ****************** */
@@ -128,6 +150,17 @@ public class ConsommationDaoJupiterTest {
 
     private Biere newTripelKarmeliet() {
         return new Biere("Tripel Karmeliet", "Belgique", 8.4);
+    }
+
+    private static class DateArgumentsProvider implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> arguments(ContainerExtensionContext context) {
+            return Stream.of(
+                    getLocalDate("01/01/2017"),
+                    getLocalDate("01/08/2017"),
+                    getLocalDate("17/05/2017"))
+                    .map(ObjectArrayArguments::create);
+        }
     }
 
 }
