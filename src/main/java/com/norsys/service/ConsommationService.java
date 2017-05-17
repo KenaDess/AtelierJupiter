@@ -1,7 +1,7 @@
 package com.norsys.service;
 
-import com.norsys.Biere;
-import com.norsys.Consommation;
+import com.norsys.domain.Biere;
+import com.norsys.domain.Consommation;
 import com.norsys.dao.ConsommationDao;
 import com.norsys.dao.exception.BoboException;
 

@@ -1,7 +1,7 @@
 package com.norsys.dao;
 
-import com.norsys.Biere;
-import com.norsys.Consommation;
+import com.norsys.domain.Biere;
+import com.norsys.domain.Consommation;
 import com.norsys.dao.exception.BoboException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ContainerExtensionContext;
