@@ -4,7 +4,7 @@ package com.norsys.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.norsys.User;
+import com.norsys.domain.User;
 import com.norsys.service.exception.AuthenticationException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;

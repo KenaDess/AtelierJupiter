@@ -1,4 +1,4 @@
-package com.norsys;
+package com.norsys.domain;
 
 import java.time.LocalDate;
 

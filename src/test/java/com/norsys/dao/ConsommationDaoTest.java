@@ -1,9 +1,8 @@
 package com.norsys.dao;
 
-import com.norsys.Biere;
-import com.norsys.Consommation;
+import com.norsys.domain.Biere;
+import com.norsys.domain.Consommation;
 import com.norsys.dao.exception.BoboException;
-import org.assertj.core.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

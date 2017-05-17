@@ -1,7 +1,7 @@
 package com.norsys.service;
 
 
-import com.norsys.User;
+import com.norsys.domain.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;

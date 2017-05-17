@@ -1,8 +1,7 @@
 package com.norsys.service;
 
 import com.norsys.Application;
-import com.norsys.User;
-import com.norsys.service.UserService;
+import com.norsys.domain.User;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 

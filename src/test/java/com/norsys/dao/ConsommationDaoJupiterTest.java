@@ -1,7 +1,7 @@
 package com.norsys.dao;
 
-import com.norsys.Biere;
-import com.norsys.Consommation;
+import com.norsys.domain.Biere;
+import com.norsys.domain.Consommation;
 import com.norsys.dao.exception.BoboException;
 import org.apache.tomcat.jni.Local;
 import org.assertj.core.util.DateUtil;
