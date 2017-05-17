@@ -10,6 +10,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ContainerExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * Classe de tests JUnit 5 pour ConsommationDao.
  */
+@Tag("developpement")
 public class ConsommationDaoJupiterTest {
 
     private ConsommationDao consommationDao;
@@ -50,6 +53,7 @@ public class ConsommationDaoJupiterTest {
             );
         }
 
+        @Tag("production")
         @TestFactory
         @DisplayName("Récupérer toutes les consommations (test factory)")
         Stream<DynamicTest> devraitRecupererToutesLesConsommations_testFactory() {
@@ -65,6 +69,7 @@ public class ConsommationDaoJupiterTest {
             }));
         }
 
+        @Tag("production")
         @TestFactory
         @DisplayName("Récupérer les consommations selon le lieu (test factory)")
         Stream<DynamicTest> devraitRecupererConsommationsParLieu_testFactory() {
@@ -81,14 +86,16 @@ public class ConsommationDaoJupiterTest {
         @ParameterizedTest
         @ArgumentsSource(DateArgumentsProvider.class)
         @DisplayName("Vérifier qu'il existe au moins une consommation pour une date")
-        void devraitRecupererAuMoinsUneConsommationParDate(LocalDate dateArgument){
+        void devraitRecupererAuMoinsUneConsommationParDate(LocalDate dateArgument) {
             Assertions.assertFalse(consommationDao.getConsommationsByDate(dateArgument).isEmpty());
         }
 
     }
+
     @Nested
     class SauvegardeConsommation {
 
+        @Tag("production")
         @Test
         @DisplayName("Insertion d'une nouvelle consommation")
         void devraitSauvegarderUneConsommation() throws BoboException {
@@ -105,6 +112,7 @@ public class ConsommationDaoJupiterTest {
             Assertions.assertEquals("A Paris, on déguste du vin dans un bar à vin !", exception.getMessage());
         }
 
+        @Tag("production")
         @TestFactory
         @DisplayName("Tentative d'insertion de consommation à Paris selon plusieurs écritures")
         Stream<DynamicTest> devraitLeverExceptionPourParis_testFactory() {
@@ -118,15 +126,18 @@ public class ConsommationDaoJupiterTest {
         }
 
     }
+
     @Nested
     class SuppressionConsommation {
 
+        @Tag("production")
         @Test
         @DisplayName("Suppression de la première consommation")
         void devraitSupprimerUneConsommation() {
             Assertions.assertTrue(consommationDao.deleteConsommation(0));
         }
 
+        @Tag("production")
         @Test
         @DisplayName("Suppression d'une consommation inexistante")
         void devraitSupprimerAucuneConsommationCarInexistante() {
@@ -135,7 +146,7 @@ public class ConsommationDaoJupiterTest {
 
         @ParameterizedTest
         @ValueSource(ints = {5, -1, 10})
-        @DisplayName("Suppressions de consommations inexistantes (test paramétré)" )
+        @DisplayName("Suppressions de consommations inexistantes (test paramétré)")
         void devraitSupprimerAucuneConsommationCarInexistante_testParametre(int argument) {
             Assertions.assertFalse(consommationDao.deleteConsommation(argument));
         }
