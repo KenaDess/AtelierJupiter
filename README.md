@@ -38,7 +38,7 @@ AtelierJupiter/
 **Vous devez impérativement utiliser intelliJ 2017.**  
 Si ce n'est pas le cas, vous trouverez une version sur le réseau : `\\SRVDATA\Logiciels\Outils Developpement\IntelliJ`
 
-* Cloner ce dépôt avec `git clone https://github.com/KenaDess/AtelierJupiter.git`
+* Cloner ce dépôt avec `git clone https://github.com/paulinedess/AtelierJupiter.git`
 * Placez vous sur la branche **/pratique** et expérimentez les fonctionnalités de JUnit5 dans la classe de test *ConsommationDaoJupiterTest*.
 
 Vous trouverez dans cette classe, les squelettes des méthodes de tests ainsi que des indications dans les *TODO*.  
